@@ -31,8 +31,8 @@ RISC-V Talent Development Program 2025 ,powered by Samsung Semiconductor Researc
 Code for O1:
 
 ```
-$ riscv-unknown-elf-gcc -O1 -mabi=lp64 -march=rv64i -o sum1ton.o sum1ton.c
-$ riscv-unknown-elf-objdump -d sum1ton.o
+$ riscv64-unknown-elf-gcc -O1 -mabi=lp64 -march=rv64i -o sum1ton.o sum1ton.c
+$ riscv64-unknown-elf-objdump -d sum1ton.o
 ```
 
 ![Cat command](https://github.com/user-attachments/assets/5118a693-c2ef-4bcb-9e99-ee57b94360ea)
