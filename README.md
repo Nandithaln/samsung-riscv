@@ -10,7 +10,8 @@ RISC-V Talent Development Program 2025 ,powered by Samsung Semiconductor Researc
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 <detail>
-<summary>
+<summary
+>
   <b>Task 1 :</b>
   The given task is to install RISC-V toolchain using VDI link by following the steps mentioned in the shared pdf and compile a simple c program referring the lab vedio 
 </summary> 
