@@ -119,7 +119,7 @@ spike -d pk prime.o
 
 <summary><b>Task 3 : </b> the third task is To identify **15 unique RISC-V instructions and determine the 32-bit instruction** code</summary>
 
-RISC-V (Reduced Instruction Set Computer - Version 5) is an open, free instruction set architecture (ISA) that follows the RISC principles. It was designed to be simple, clean, and extensible, making it suitable for a wide range of computing applications. Here's a breakdown of some key concepts about RISC-V instructions:
+RISC-V (Reduced Instruction Set Computer - Version 5) is an open, free instruction set architecture (ISA) that follows the RISC principles. It was designed to be simple, clean, and extensible, making it suitable for a wide range of computing applications.
 
 **1. Instruction Set**
 
@@ -200,5 +200,73 @@ RISC-V instructions are fixed-length (32 bits) and follow a few primary formats,
    * **rd:** 5 bits specifying the destination register where the result will be stored.
    * **opcode:** 7 bits specifying the operation (e.g., arithmetic operation, logical operation).
      
-**Example:** add instruction adds two registers and stores the result in a third register.
+**Example:** ```add``` instruction adds two registers and stores the result in a third register.
+
+### 2. I-Type/Immediate type 
+* Used for operations that involve an immediate value (constant).
+
+      [imm[11:0] | rs1 | funct3 | rd | opcode]
+        12bit     5bit   3bit    5bit  7bit
+
+    * **imm[11:0]:** 12 bits immediate value (constant).
+    * **rs1:** 5 bits specifying the source register.
+    * **funct3:** 3 bits specifying the operation.
+    * **rd:** 5 bits specifying the destination register.
+    * **opcode:** 7 bits specifying the operation.
+      
+  **Example:** ```addi``` adds an immediate value to a register.
+
+### 3. S-Type/Store type
+  * Used for store instructions that write data from a register to memory.
+
+        [imm[11:5] | rs2 | rs1 | funct3 | imm[4:0] | opcode]
+           7bit      5bit   5bit   3bit    5bit       7bit   
+
+     * **imm[11:5]:** 7 bits of the immediate value.
+     * **rs2:** 5 bits specifying the source register (data to be stored).
+     * **rs1:** 5 bits specifying the base register (address for storing).
+     * **funct3:** 3 bits specifying the store operation.
+     * **imm[4:0]:** 5 bits of the immediate value.
+     * **opcode:** 7 bits specifying the store instruction.
+
+Example: ```sw``` stores a word (32 bits) from a register to memory.
+
+ ### 4. B-Type/Branch type 
+  * Used for conditional branch instructions.
  
+        [imm[12] | imm[10:5] | rs2 | rs1 | funct3 | imm[4:1] | imm[11] | opcode]
+
+      * **imm:** 12 bits immediate value that represents the offset for the branch.
+      * **rs2:** 5 bits specifying the second register (used for comparison).
+      * **rs1:** 5 bits specifying the first register (used for comparison).
+      * **funct3:** 3 bits specifying the branch condition (e.g., equal, not equal).
+      * **opcode:** 7 bits specifying the branch instruction.
+        
+**Example:** ```beq``` branches if two registers are equal.
+
+### 5. U-Type/Upper-immediate type
+* Used for instructions that need a large immediate value (used for loading constants).
+
+       [imm[31:12] | rd | opcode]
+
+  * **imm[31:12]:** 20 bits of the immediate value (upper part of the immediate).
+  * **rd:** 5 bits specifying the destination register.
+  * **opcode:** 7 bits specifying the operation.
+    
+**Example:** ```lui``` loads an immediate value into the upper 20 bits of a register.
+
+### 6. J-Type/Jump type
+* Used for jump instructions that use a large offset.
+
+       [imm[20] | imm[10:1] | imm[11] | imm[19:12] | rd | opcode]
+
+    * **imm:** 21 bits immediate value that specifies the jump target.
+    * **rd:** 5 bits (usually unused in jump instructions).
+    * **opcode:** 7 bits specifying the jump operation.
+
+***Example:** ```jal``` performs a jump and link.
+
+### 
+
+
+
