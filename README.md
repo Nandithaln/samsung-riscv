@@ -115,5 +115,90 @@ spike -d pk prime.o
 
 ![load upper immediate](https://github.com/user-attachments/assets/96d1529f-d773-4685-88e6-8a22a20edfd3)
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+<summary><b>Task 3 : </b> the third task is To identify **15 unique RISC-V instructions and determine the 32-bit instruction** code</summary>
+
+RISC-V (Reduced Instruction Set Computer - Version 5) is an open, free instruction set architecture (ISA) that follows the RISC principles. It was designed to be simple, clean, and extensible, making it suitable for a wide range of computing applications. Here's a breakdown of some key concepts about RISC-V instructions:
+
+**1. Instruction Set**
+
+**Base ISA:** RISC-V has a small, fixed set of base instructions. The simplest one is RV32I, which is a 32-bit integer base ISA. There's also RV64I for 64-bit systems.
+
+**Extensions:** RISC-V is modular, with optional extensions like M (integer multiplication and division), A (atomic instructions), F (single-precision floating point), D (double-precision floating point), etc.
+
+**Custom Extensions:** Users can define their custom extensions while keeping compatibility with the base ISA.
 
 
+**2. Instruction Formats**
+
+**Fixed-Length:** All instructions are 32 bits long (with some optional 16-bit compressed instructions for efficiency).
+Formats: RISC-V has several instruction formats like R-type (Register), I-type (Immediate), S-type (Store), B-type (Branch), U-type (Upper Immediate), and J-type (Jump).
+
+**3. Load/Store Architecture**
+RISC-V follows the load/store architecture, meaning that it can only perform arithmetic operations on registers, not directly on memory. Data must first be loaded into registers, manipulated, and then stored back to memory if needed.
+
+**4. Simplicity and Regularity**
+Instructions have a consistent format, which simplifies decoding and execution.
+There are fewer instructions compared to CISC (Complex Instruction Set Computer) architectures, making RISC-V simpler to implement in hardware.
+
+
+**5. Advantages of RISC-V**
+
+***Open Standard:*** It's not bound by proprietary rights, making it widely accessible for research, teaching, and industry.
+
+***Scalability:*** Can be used in a wide range of devices from tiny embedded systems to powerful supercomputers.
+
+***Efficiency:*** The simplicity and modularity often lead to better performance and energy efficiency.
+
+**Step 1:** Create prime.o file 
+
+### Why covert the c file to object file?
+> The ```gcc``` compiler translates source code to machine code but in object file . The object file is a binary file that contains the machine code for the compiled source code, along with information about external symbols (functions or variables defined in other files).
+
+Code:
+```
+$ cat prime.c
+$ riscv64-unknown-elf-gcc -O1 -mabi=lp64 -march=rv64i -o prime.o prime.c
+$ ls -ltr
+```
+
+**Step 2:** Get the ```objdump``` for the object file and navigate to the ```main``` section 
+
+Code:
+```
+$ risvc64-unknown-elf-objdump -d prime.o
+```
+
+**Step 3:** Identify the instruction format 
+
+### RISC-V Instruction formats
+
+In RISC-V, an instruction format refers to the layout or structure of an instruction in memory, defining how the binary representation of the instruction is split into various fields. Each field specifies different parts of the operation, like the opcode, registers, immediate values, etc.
+
+RISC-V instructions are fixed-length (32 bits) and follow a few primary formats, each serving a different type of instruction (arithmetic, load/store, branching, etc.).
+
+### Types of Instruction Format 
+
+* **R-Type** - Register type
+* **I-Type** - Immediate type
+* **S-Type** - Store type
+* **B-Type** - Branch type
+* **U-Type** - Upper-intermmediate type
+* **J-Type** - Jump type
+
+### 1. R-Type/Register type
+* Used for arithmetic and logical instructions that operate on registers.
+
+      [funct7 | rs2 | rs1 | funct3 | rd | opcode]
+        7bit   5bit  5bit    3bit    5bit  7bit 
+
+   * **funct7:** 7 bits that specify the operation's variant.
+   * **rs2:** 5 bits specifying the second source register.
+   * **rs1:** 5 bits specifying the first source register.
+   * **funct3:** 3 bits specifying the operation (e.g., add, sub, etc.).
+   * **rd:** 5 bits specifying the destination register where the result will be stored.
+   * **opcode:** 7 bits specifying the operation (e.g., arithmetic operation, logical operation).
+     
+**Example:** add instruction adds two registers and stores the result in a third register.
+ 
