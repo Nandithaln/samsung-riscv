@@ -9,7 +9,7 @@ RISC-V Talent Development Program 2025 ,powered by Samsung Semiconductor Researc
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-<detail>
+<details>
 <summary
 >
   <b>Task 1</b> :
