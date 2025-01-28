@@ -383,7 +383,8 @@ Example: ```sw``` stores a word (32 bits) from a register to memory.
   `00001 | 00010 | 00000 | 00000 | 0110011`
   - This corresponds to `and x2, x3, x0`.
 </details>
----
+
+------------------------------------------------------------------------------------------
 
 <details>
 <summary
@@ -510,7 +511,8 @@ the Task 4 is to perform a functional simulation of the given RISC-V Core Verilo
 
 ![xor](https://github.com/user-attachments/assets/235de2a8-3f3f-446e-a00c-a4550e36ded7)
 </details>
----
+
+------------------------------------------------------------------------------------------
 
 <details>
 <summary
