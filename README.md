@@ -405,6 +405,8 @@ Example: ```sw``` stores a word (32 bits) from a register to memory.
 **Step 5:**
  * Analyze the output waveform.
  * The bit pattern will not match the instruction found in Task 3
- * **O1 
+ * **O1 ≠ O2**
+
+**1.
  
     
