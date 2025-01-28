@@ -267,7 +267,144 @@ Example: ```sw``` stores a word (32 bits) from a register to memory.
 
 ***Example:** ```jal``` performs a jump and link.
 
-### 
+
+### **1. `addi` - Add Immediate** (for initializing `temp = 0`)
+- **Format Type**: **I-type**
+  - **Explanation**: The `addi` instruction adds an immediate value to a register.
+- **32-bit Binary**:  
+  `000000000000 | 00000 | 000 | 01000 | 0010011`
+  - This corresponds to `addi x8, x0, 0`.
+
+### **2. `lw` - Load Word** (loading `num` from memory)
+- **Format Type**: **I-type**
+  - **Explanation**: Loads a word from memory into a register.
+- **32-bit Binary**:  
+  `000000000000 | 00000 | 010 | 00001 | 0000011`
+  - This corresponds to `lw x1, 0(x0)` (assuming `num` is stored at address 0).
+
+### **3. `addi` - Add Immediate** (setting loop index `i = 2`)
+- **Format Type**: **I-type**
+  - **Explanation**: Adds immediate value to the register for the loop variable `i = 2`.
+- **32-bit Binary**:  
+  `000000000010 | 00000 | 000 | 00010 | 0010011`
+  - This corresponds to `addi x2, x0, 2`.
+
+### **4. `div` - Division** (for `num / 2` in the for loop)
+- **Format Type**: **R-type**
+  - **Explanation**: Divides the contents of two registers (`num` and `2`).
+- **32-bit Binary**:  
+  `0000001 | 00001 | 00010 | 000 | 0110011`
+  - This corresponds to `div x3, x1, x2`.
+
+### **5. `blt` - Branch if Less Than** (for checking if `i <= num / 2`)
+- **Format Type**: **B-type**
+  - **Explanation**: Branches if `x3 < x2`, checking loop condition.
+- **32-bit Binary**:  
+  `0000000 | 00010 | 00001 | 100 | 0000000 | 0000 | 0 | 1100011`
+  - This corresponds to `blt x3, x2, end_loop`.
+
+### **6. `rem` - Remainder** (for `num % i`)
+- **Format Type**: **R-type**
+  - **Explanation**: Computes the remainder when dividing `num` by `i`.
+- **32-bit Binary**:  
+  `0000001 | 00001 | 00010 | 100 | 0110011`
+  - This corresponds to `rem x4, x1, x2`.
+
+### **7. `beq` - Branch if Equal** (for `num % i == 0`)
+- **Format Type**: **B-type**
+  - **Explanation**: Branches if `x4 == x0`, i.e., when `num % i == 0`.
+- **32-bit Binary**:  
+  `0000000 | 00000 | 00001 | 000 | 0000000 | 0000 | 0 | 1100011`
+  - This corresponds to `beq x4, x0, next`.
+
+### **8. `addi` - Add Immediate** (for `temp++`)
+- **Format Type**: **I-type**
+  - **Explanation**: Adds immediate value to `temp` (incrementing it).
+- **32-bit Binary**:  
+  `000000000001 | 01000 | 000 | 00101 | 0010011`
+  - This corresponds to `addi x5, x8, 1`.
+
+### **9. `bne` - Branch if Not Equal** (for checking if `temp != 0`)
+- **Format Type**: **B-type**
+  - **Explanation**: Branches if `temp != 0`.
+- **32-bit Binary**:  
+  `0000000 | 00001 | 00001 | 001 | 0000010 | 0000 | 0 | 1100011`
+  - This corresponds to `bne x5, x0, prime_not_prime`.
+
+### **10. `jal` - Jump and Link** (for prime check: jump to print "prime")
+- **Format Type**: **J-type**
+  - **Explanation**: Jumps to a specified address and saves the return address in a register.
+- **32-bit Binary**:  
+  `000000000000 | 00010 | 0110111`
+  - This corresponds to `jal x2, print_prime`.
+
+### **11. `addi` - Add Immediate** (return 0, `temp = 0`)
+- **Format Type**: **I-type**
+  - **Explanation**: Add immediate value to register for the return value.
+- **32-bit Binary**:  
+  `000000000000 | 00000 | 000 | 01010 | 0010011`
+  - This corresponds to `addi x10, x0, 0`.
+
+### **12. `sw` - Store Word** (store the value of `num` for printing)
+- **Format Type**: **S-type**
+  - **Explanation**: Stores a word from a register to memory.
+- **32-bit Binary**:  
+  `0000000 | 00011 | 00001 | 010 | 00000 | 0100011`
+  - This corresponds to `sw x1, 0(x3)`.
+
+### **13. `lui` - Load Upper Immediate** (set up `x2` register with high immediate value)
+- **Format Type**: **U-type**
+  - **Explanation**: Loads a 20-bit immediate into the upper 20 bits of a register.
+- **32-bit Binary**:  
+  `000000000000 | 00010 | 0110111`
+  - This corresponds to `lui x2, 0`.
+
+### **14. `xori` - Exclusive OR Immediate** (for bitwise manipulation, if applicable)
+- **Format Type**: **I-type**
+  - **Explanation**: Performs bitwise XOR between a register and an immediate value.
+- **32-bit Binary**:  
+  `000000000000 | 00001 | 100 | 00010 | 0010011`
+  - This corresponds to `xori x2, x1, 0`.
+
+### **15. `and` - Bitwise AND** (for masking or setting flags)
+- **Format Type**: **R-type**
+  - **Explanation**: Performs a bitwise AND operation between two registers.
+- **32-bit Binary**:  
+  `00001 | 00010 | 00000 | 00000 | 0110011`
+  - This corresponds to `and x2, x3, x0`.
+
+---
+
+<summary><b>Task 4:</b> the Task 4 is to perform a functional simulation of the given RISC-V Core Verilog netlist and testbench </summary>
 
 
+**Step 1:**
+   * To download the Verilog netlist and test bench from the reference GitHub repository https://github.com/vinayrayapati/rv32i
+   * We are downloading the file because the designing of RISC-V architecture and writing its testbench is not a part of this internship.
 
+ **Step 2:**
+  * Install the suitable simulation tool that is ```iverilog``` and ```gtkwave```
+  * To install them use the foloowing command
+    ```
+    $ istall apt iverilog
+    $ install apt gtkwave
+    ```
+    **Step 3:**
+     * To run and simulate use the foloowing command
+       ```
+       $ iverilog -o iiitb_rv32i iiitb_rv32i.v iiitb_rv32i_tb.v
+       ```
+     * This will create the vcd file
+
+**Step 4:**
+ * To see the waveform in gtkwave use the following command use the vcd file created earlier
+   ```
+   $ gtkwave iiitb_rv32i.vcd
+   ```
+
+**Step 5:**
+ * Analyze the output waveform.
+ * The bit pattern will not match the instruction found in Task 3
+ * **O1 
+ 
+    
