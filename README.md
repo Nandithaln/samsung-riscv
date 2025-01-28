@@ -499,4 +499,57 @@ Example: ```sw``` stores a word (32 bits) from a register to memory.
 
 <summary><b>Task 5:</b> This task is to add project name with brief overview and components required </summary>
     
-### Overview 
+### Overview
+
+This project adds a 16x2 LCD display to the digital lock system to show user-friendly messages. The system accepts input via push buttons to form a "password," compares it with a predefined code, and provides feedback on the LCD. If the password is correct, an LED or buzzer activates to indicate success. If incorrect, an error message appears, and the lock remains closed.
+
+
+### Components required 
+
+ * VSDSquadron Board: The RISC-V-based development board for running the code.
+ * 16x2 LCD Display: To display messages like "Enter Password" or "Access Denied."
+ * Push Buttons (3 or more): Used for entering the password.
+ * Resistors:
+     * Pull-up resistors for the push buttons.
+     * 220-ohm resistors for LEDs.
+ * LEDs:
+   * One LED to indicate "Unlock."
+   * Optionally, another LED for "Lock."
+ * Buzzer (optional): Provides an audible alert on success.
+ * Potentiometer (10k ohm): Adjusts the LCD screen's contrast.
+ * Wires and Breadboard: For connections.
+
+### Circuit Connection For Digital Lock System
+
+  * Connect one terminal of each button to a GPIO pin
+  * The other terminal of each button connects to GND.
+  * Add pull-up resistors (10k ohm) to each GPIO pin to ensure stable input readings.
+  * Unlock LED:
+      * Connect the positive leg (anode) to GPIO_5.
+      * Connect the negative leg (cathode) to GND through a 220-ohm resistor.
+  * Connect the I2C module's:
+       * SCL → GPIO_8
+       * SDA → GPIO_9
+       * VCC → 5V
+       * GND → GND
+
+### Pinout diagram 
+
+   | **Component**        | **GPIO Pin**     | **Description**                   |
+|----------------------|------------------|-----------------------------------|
+| **Button 1**         | GPIO_0           | Input for first digit (Button 1)  |
+| **Button 2**         | GPIO_1           | Input for second digit (Button 2) |
+| **Button 3**         | GPIO_2           | Input for third digit (Button 3)  |
+| **Lock LED**         | GPIO_5           | LED lights up when password is incorrect |
+| **Buzzer**           | GPIO_7           | Provides sound feedback for correct password |
+| **LCD SDA (Data)**   | GPIO_8           | I2C data line for LCD             |
+| **LCD SCL (Clock)**  | GPIO_9           | I2C clock line for LCD            |
+| **VCC**              | VCC (3.3V or 5V) | Power supply for components       |
+| **GND**              | GND              | Ground connection for components |
+
+
+
+
+
+
+
