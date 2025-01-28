@@ -58,7 +58,8 @@ Here d stands for dis assemble
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
 <details>
-<summary>
+<summary
+>
 <b>Task 2:</b> This task is to compile a new simple C program and collect the RISC-V object dump using both -O1 and -Ofast </summary>
 
 Program to find whether the entered number is prime number or not:
@@ -121,8 +122,11 @@ spike -d pk prime.o
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 <details>
-<summary>
-<b>Task 3 : </b> the third task is To identify **15 unique RISC-V instructions and determine the 32-bit instruction** code</summary>
+<summary
+>
+<b>Task 3 : </b> 
+the third task is To identify **15 unique RISC-V instructions and determine the 32-bit instruction** code
+</summary>
 
 RISC-V (Reduced Instruction Set Computer - Version 5) is an open, free instruction set architecture (ISA) that follows the RISC principles. It was designed to be simple, clean, and extensible, making it suitable for a wide range of computing applications.
 
@@ -380,8 +384,11 @@ Example: ```sw``` stores a word (32 bits) from a register to memory.
 ---
 
 <details>
-<summary>
-<b>Task 4:</b> the Task 4 is to perform a functional simulation of the given RISC-V Core Verilog netlist and testbench </summary>
+<summary
+>
+<b>Task 4:</b> 
+the Task 4 is to perform a functional simulation of the given RISC-V Core Verilog netlist and testbench 
+</summary>
 
 
 **Step 1:**
@@ -504,8 +511,11 @@ Example: ```sw``` stores a word (32 bits) from a register to memory.
 ---
 
 <details>
-<summary>
-<b>Task 5:</b> This task is to add project name with brief overview and components required </summary>
+<summary
+>
+<b>Task 5:</b>
+ This task is to add project name with brief overview and components required 
+</summary>
     
 ### Overview
 
