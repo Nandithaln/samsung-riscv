@@ -407,6 +407,96 @@ Example: ```sw``` stores a word (32 bits) from a register to memory.
  * The bit pattern will not match the instruction found in Task 3
  * **O1 ≠ O2**
 
-**1.
+**1. ```Add R6, R2, R1```**
+
+ *  A=1
+ *  B=2
+ *  The out put is 3 as the command ```Add``` adds the given inputs
+ *  32 bit --> 02208300
+   
+![Add](https://github.com/user-attachments/assets/0818f8d0-3744-4469-81f3-50d591093e30)
+
+ **2. ```ADDI R12, R4, 5```**
+
+  * A=4
+  * B=5
+  * Output is 9 it adds the number with the immediate value
+  * 32 bit --> 00520600
  
+ ![addi](https://github.com/user-attachments/assets/65a51888-7f63-4829-95cb-9bf7c4d98ca7)
+
+ **3.```AND R8, R1, R3```**
+
+ * A=3
+ * B=1
+ * Output is 1 [ 3&1 = 1]
+ * 32 bit --> 0230A400
+
+ ![and](https://github.com/user-attachments/assets/1e7dd2e2-f149-4a65-b929-364efcb4f6c0)
+
+ **4.```BEQ R0, R0, 15```**
+
+ * Value stored= 0
+ * incremented by 15=25
+ * 32 bit --> 00F0002
+ 
+![beq](https://github.com/user-attachments/assets/0bc9f531-5edb-4e94-b3e8-a83bd44e3674)
+
+**5.```BNE R0, R1, 20```**
+
+ * Checks both the value stored
+ * if not equal increments by 20 = 46
+ * 32 bit --> 01409002
+
+![bne](https://github.com/user-attachments/assets/0ea6f2f1-f145-43a7-9596-c2a37e82e720)
+
+**6.```OR R9, R2, R5```**
+
+ * A=2
+ * B=5
+ * Output is 7
+ * 32 bit --> 02513480
+
+![or](https://github.com/user-attachments/assets/8b569d45-f71b-496a-a91e-9f8293bf964f)
+
+**7.```SLL R15, R1, R2```**
+
+ * The output is 4
+ * this operator shifts 1 as the value is 2 001 is shifted to 100
+ * 32 bit --> 2131843
+
+![sll](https://github.com/user-attachments/assets/34e2e0fc-2639-4aa8-9685-5b45a66f2823)
+
+**8.```SLT R1, R2, R4```**
+
+ * Compares the stored value if true 1 else 0
+ * 2 and 4 -- 2 < 4 hence 1
+ * 32 bit --> 02415580
+
+![slt](https://github.com/user-attachments/assets/2c58ca8d-3f57-457b-8f59-fc5d2683d6d2)
+
+**9.```SUB R7, R1, R2```**
+
+ * This operator or intsruction substracts the 2 stored value
+ * A=1
+ * B=2
+ * A-B = 1-2 = -1
+ * 32 bit --> 02209380
+ 
+![sub](https://github.com/user-attachments/assets/ea0531eb-3a77-4cc5-9764-65b4d31c7c32)
+
+**10.```XOR R10, R1, R4```**
+
+ * It performs bitwise XOR function
+ * A=1
+ * B=5
+ * output is 5
+ * 32 bit --> 0240C500
+
+![xor](https://github.com/user-attachments/assets/235de2a8-3f3f-446e-a00c-a4550e36ded7)
+
+---
+
+<summary><b>Task 5:</b> This task is to add project name with brief overview and components required </summary>
     
+### Overview 
