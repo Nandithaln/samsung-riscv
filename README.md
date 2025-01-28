@@ -54,6 +54,7 @@ $ riscv-unknown-elf-objdump -d sum1ton.o
 ```
 Here d stands for dis assemble 
 ![objectdump using Ofast](https://github.com/user-attachments/assets/e3e26e37-ff7e-4d3c-847d-c1d508b9d468)
+</details>
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -118,6 +119,7 @@ spike -d pk prime.o
 ```
 
 ![load upper immediate](https://github.com/user-attachments/assets/96d1529f-d773-4685-88e6-8a22a20edfd3)
+</details>
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -380,7 +382,7 @@ Example: ```sw``` stores a word (32 bits) from a register to memory.
 - **32-bit Binary**:  
   `00001 | 00010 | 00000 | 00000 | 0110011`
   - This corresponds to `and x2, x3, x0`.
-
+</details>
 ---
 
 <details>
@@ -507,7 +509,7 @@ the Task 4 is to perform a functional simulation of the given RISC-V Core Verilo
  * 32 bit --> 0240C500
 
 ![xor](https://github.com/user-attachments/assets/235de2a8-3f3f-446e-a00c-a4550e36ded7)
-
+</details>
 ---
 
 <details>
@@ -566,7 +568,7 @@ This project adds a 16x2 LCD display to the digital lock system to show user-fri
 | **GND**              | GND              | Ground connection for components |
 
 
-
+</details>
 
 
 
