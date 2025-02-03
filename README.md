@@ -99,7 +99,7 @@ int main()
 ``` spike pk prime.c```
 
 
-**To find the ```objdump``` the procedure is similar to the previous task given where we run the program for sum1ton.c**
+**To find the ```objdump``` the procedure is similar to the previous task given where we run the program for ```sum1ton.c```**
 
 ![output using spike](https://github.com/user-attachments/assets/df091ccd-e227-4504-b2c5-af8cf6beae2c)
 
@@ -164,7 +164,7 @@ There are fewer instructions compared to CISC (Complex Instruction Set Computer)
 
 **Step 1:** Create prime.o file 
 
-### Why covert the c file to object file?
+### Why convert the c file to object file?
 > The ```gcc``` compiler translates source code to machine code but in object file . The object file is a binary file that contains the machine code for the compiled source code, along with information about external symbols (functions or variables defined in other files).
 
 Code:
