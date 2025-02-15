@@ -517,8 +517,8 @@ the Task 4 is to perform a functional simulation of the given RISC-V Core Verilo
 <details>
 <summary
 >
-<b>Task 5:</b>
- This task is to add project name with brief overview and components required 
+<b>Task 5 and Task 6:</b>
+ This task is to add project name with brief overview and components required with working vedio
 </summary>
     
 ### Overview
