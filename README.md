@@ -523,51 +523,59 @@ the Task 4 is to perform a functional simulation of the given RISC-V Core Verilo
     
 ### Overview
 
-This project adds a 16x2 LCD display to the digital lock system to show user-friendly messages. The system accepts input via push buttons to form a "password," compares it with a predefined code, and provides feedback on the LCD. If the password is correct, an LED or buzzer activates to indicate success. If incorrect, an error message appears, and the lock remains closed.
+
+  A digital lock system is an electronic security mechanism that grants access only when a correct password is entered. This system is built using the VSDSquadron Mini board, which controls a 4x4 matrix keypad, an LED indicator, and a buzzer for feedback.
+
+Components Required:
+VSDSquadron Mini Board (CH32V003 microcontroller)
+4x4 Matrix Keypad (For password input)
+LED (Indicates lock status)
+Buzzer (For success/error notification)
+Resistors (330Ω for LED, 1kΩ for pull-down if needed)
+Power Supply (5V/3.3V as required)
+Connecting Wires
 
 
-### Components required 
+Pin Connections:
 
- * VSDSquadron Board: The RISC-V-based development board for running the code.
- * 16x2 LCD Display: To display messages like "Enter Password" or "Access Denied."
- * Push Buttons (3 or more): Used for entering the password.
- * Resistors:
-     * Pull-up resistors for the push buttons.
-     * 220-ohm resistors for LEDs.
- * LEDs:
-   * One LED to indicate "Unlock."
-   * Optionally, another LED for "Lock."
- * Buzzer (optional): Provides an audible alert on success.
- * Potentiometer (10k ohm): Adjusts the LCD screen's contrast.
- * Wires and Breadboard: For connections.
+| **Component**       | **VSDSquadron Mini Pin** | **Notes**            |
+|---------------------|------------------------|----------------------|
+| Keypad Row 1 (R1)  | PD0                     | Digital Input       |
+| Keypad Row 2 (R2)  | PD1                     | Digital Input       |
+| Keypad Row 3 (R3)  | PD2                     | Digital Input       |
+| Keypad Row 4 (R4)  | PD3                     | Digital Input       |
+| Keypad Column 1 (C1) | PD4                   | Digital Output      |
+| Keypad Column 2 (C2) | PD5                   | Digital Output      |
+| Keypad Column 3 (C3) | PD6                   | Digital Output      |
+| Keypad Column 4 (C4) | PD7                   | Digital Output      |
+| LED (Anode +)      | PD8                     | Via 330Ω resistor   |
+| LED (Cathode -)    | GND                     | Common ground       |
+| Buzzer (Positive +)| PD9                     | Digital Output      |
+| Buzzer (Negative -)| GND                     | Common ground       |
+| Power (VCC)        | 3.3V / 5V               | Power the board     |
+| Ground (GND)       | GND                     | Common ground       |
 
-### Circuit Connection For Digital Lock System
 
-  * Connect one terminal of each button to a GPIO pin
-  * The other terminal of each button connects to GND.
-  * Add pull-up resistors (10k ohm) to each GPIO pin to ensure stable input readings.
-  * Unlock LED:
-      * Connect the positive leg (anode) to GPIO_5.
-      * Connect the negative leg (cathode) to GND through a 220-ohm resistor.
-  * Connect the I2C module's:
-       * SCL → GPIO_8
-       * SDA → GPIO_9
-       * VCC → 5V
-       * GND → GND
 
-### Pinout diagram 
+Connection Explanation:
+Keypad Connection:
 
-   | **Component**        | **GPIO Pin**     | **Description**                   |
-|----------------------|------------------|-----------------------------------|
-| **Button 1**         | GPIO_0           | Input for first digit (Button 1)  |
-| **Button 2**         | GPIO_1           | Input for second digit (Button 2) |
-| **Button 3**         | GPIO_2           | Input for third digit (Button 3)  |
-| **Lock LED**         | GPIO_5           | LED lights up when password is incorrect |
-| **Buzzer**           | GPIO_7           | Provides sound feedback for correct password |
-| **LCD SDA (Data)**   | GPIO_8           | I2C data line for LCD             |
-| **LCD SCL (Clock)**  | GPIO_9           | I2C clock line for LCD            |
-| **VCC**              | VCC (3.3V or 5V) | Power supply for components       |
-| **GND**              | GND              | Ground connection for components |
+The rows (R1-R4) are connected to input pins (PD0-PD3) and set as inputs with pull-ups.
+The columns (C1-C4) are connected to output pins (PD4-PD7) and scanned in the program.
+LED Connection:
+
+The anode (+) is connected to PD8 via a 330Ω resistor to limit current.
+The cathode (-) is connected to GND.
+The LED turns ON for success and blinks for incorrect password attempts.
+Buzzer Connection:
+
+The positive terminal of the buzzer is connected to PD9.
+The negative terminal is connected to GND.
+The buzzer gives a short beep on success and a long alarm for failure.
+Power Supply:
+
+The VSDSquadron Mini operates at 3.3V or 5V, depending on configuration.
+Ensure all components share the same GND.
 
 
 ### Code
