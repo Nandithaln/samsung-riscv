@@ -526,13 +526,22 @@ the Task 4 is to perform a functional simulation of the given RISC-V Core Verilo
 
   A digital lock system is an electronic security mechanism that grants access only when a correct password is entered. This system is built using the VSDSquadron Mini board, which controls a 4x4 matrix keypad, an LED indicator, and a buzzer for feedback.
 
+
 Components Required:
+
+
 VSDSquadron Mini Board (CH32V003 microcontroller)
+
 4x4 Matrix Keypad (For password input)
+
 LED (Indicates lock status)
+
 Buzzer (For success/error notification)
+
 Resistors (330Ω for LED, 1kΩ for pull-down if needed)
+
 Power Supply (5V/3.3V as required)
+
 Connecting Wires
 
 
@@ -558,6 +567,7 @@ Pin Connections:
 
 
 Connection Explanation:
+
 Keypad Connection:
 
 The rows (R1-R4) are connected to input pins (PD0-PD3) and set as inputs with pull-ups.
