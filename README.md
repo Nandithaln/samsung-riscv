@@ -573,106 +573,129 @@ This project adds a 16x2 LCD display to the digital lock system to show user-fri
 ### Code
 
 ```
+#include <ch32v00x.h>
 #include <stdio.h>
-#include <stdint.h>
-#include <ch32v00x.h>  // VSDSquadronMini Library
 
-// Password setup
-uint8_t password[4] = {1, 2, 3, 4};  // Change this to set your password
-uint8_t entered[4];  // Stores user input
-int enteredIndex = 0;
+// Keypad row and column pin assignments (PD0 - PD7)
+#define ROW1_PIN GPIO_Pin_0  // PD0 for Row 1
+#define ROW2_PIN GPIO_Pin_1  // PD1 for Row 2
+#define ROW3_PIN GPIO_Pin_2  // PD2 for Row 3
+#define ROW4_PIN GPIO_Pin_3  // PD3 for Row 4
+#define COL1_PIN GPIO_Pin_4  // PD4 for Column 1
+#define COL2_PIN GPIO_Pin_5  // PD5 for Column 2
+#define COL3_PIN GPIO_Pin_6  // PD6 for Column 3
+#define COL4_PIN GPIO_Pin_7  // PD7 for Column 4
 
-// Function to configure GPIO
+// Define the correct password (you can change this to your desired password)
+uint8_t correct_password[4] = {1, 2, 3, 4};  // Example: Password is 1234
+
+uint8_t entered_password[4];  // Array to store the entered password
+uint8_t entered_index = 0;  // Index to track which digit the user has entered
+
+// GPIO Configuration for Keypad, LED, and Buzzer
 void GPIO_Config(void) {
     GPIO_InitTypeDef GPIO_InitStructure = {0};
+
+    // Enable clocks for GPIOA and GPIOC
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
 
-    // Configure Keypad input pins (PD0 to PD7)
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | 
-                                  GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;  // Input Pull-up
-    GPIO_Init(GPIOD, &GPIO_InitStructure);
+    // Set rows as OUTPUT
+    GPIO_InitStructure.GPIO_Pin = ROW1_PIN | ROW2_PIN | ROW3_PIN | ROW4_PIN;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; // Push-pull mode
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
 
-    // Configure LED, Buzzer, and Relay output pins
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2;  // PC0 = LED, PC1 = Buzzer, PC2 = Relay
+    // Set columns as INPUT with Pull-Up
+    GPIO_InitStructure.GPIO_Pin = COL1_PIN | COL2_PIN | COL3_PIN | COL4_PIN;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;  // Input pull-up
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+    // Configure LED as output
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
+
+    // Configure Buzzer as output
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
     GPIO_Init(GPIOC, &GPIO_InitStructure);
 }
 
-// Function to configure UART for Serial Debugging
-void UART_Config(void) {
-    USART_InitTypeDef USART_InitStructure;
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
-
-    USART_InitStructure.USART_BaudRate = 115200;
-    USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-    USART_InitStructure.USART_StopBits = USART_StopBits_1;
-    USART_InitStructure.USART_Parity = USART_Parity_No;
-    USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-    USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
-
-    USART_Init(USART1, &USART_InitStructure);
-    USART_Cmd(USART1, ENABLE);
+// Function to map the row and column to a key
+char get_key_from_position(int row, int col) {
+    char key_map[4][4] = {
+        {'1', '2', '3', 'A'},
+        {'4', '5', '6', 'B'},
+        {'7', '8', '9', 'C'},
+        {'*', '0', '#', 'D'}
+    };
+    return key_map[row][col];
 }
 
-// Function to send debug messages via Serial
-void UART_SendString(char *str) {
-    while (*str) {
-        USART_SendData(USART1, *str++);
-        while (USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
+// Function to scan the keypad and detect which key is pressed
+char scan_keypad(void) {
+    for (int row = 0; row < 4; row++) {
+        // Set the current row LOW
+        GPIO_ResetBits(GPIOA, (1 << row));
+
+        // Check each column to detect key press
+        for (int col = 0; col < 4; col++) {
+            if (GPIO_ReadInputDataBit(GPIOA, (1 << (col + 4))) == RESET) {
+                // Key is pressed, return the mapped key
+                GPIO_SetBits(GPIOA, (1 << row));  // Reset row to HIGH
+                return get_key_from_position(row, col);
+            }
+        }
+
+        // Reset row to HIGH
+        GPIO_SetBits(GPIOA, (1 << row));
     }
+
+    return 0;  // No key pressed
 }
 
-// Function to check password correctness
+// Function to check the entered password
 void check_password() {
-    if (entered[0] == password[0] &&
-        entered[1] == password[1] &&
-        entered[2] == password[2] &&
-        entered[3] == password[3]) {
+    if (entered_index == 4) {  // Once 4 digits are entered
+        // Compare the entered password with the correct password
+        if (entered_password[0] == correct_password[0] &&
+            entered_password[1] == correct_password[1] &&
+            entered_password[2] == correct_password[2] &&
+            entered_password[3] == correct_password[3]) {
+            // Password is correct
+            GPIO_SetBits(GPIOC, GPIO_Pin_0);  // Turn on LED
+            GPIO_ResetBits(GPIOC, GPIO_Pin_1);  // Turn off Buzzer
+        } else {
+            // Password is incorrect
+            GPIO_ResetBits(GPIOC, GPIO_Pin_0);  // Turn off LED
+            GPIO_SetBits(GPIOC, GPIO_Pin_1);  // Turn on Buzzer for error
+        }
 
-        GPIO_WriteBit(GPIOC, GPIO_Pin_0, SET);  // Turn ON LED (Correct Password)
-        GPIO_WriteBit(GPIOC, GPIO_Pin_2, SET);  // Activate Relay (Unlock)
-        GPIO_WriteBit(GPIOC, GPIO_Pin_1, RESET);  // Turn OFF Buzzer
-
-        UART_SendString("✅ Access Granted! Door Unlocked.\n");
-
-    } else {
-        GPIO_WriteBit(GPIOC, GPIO_Pin_0, RESET);  // Turn OFF LED
-        GPIO_WriteBit(GPIOC, GPIO_Pin_2, RESET);  // Deactivate Relay (Lock)
-        GPIO_WriteBit(GPIOC, GPIO_Pin_1, SET);  // Turn ON Buzzer (Wrong Password)
-
-        UART_SendString("❌ Wrong Password! Access Denied.\n");
+        // Reset entered password for next attempt
+        entered_index = 0;
     }
 }
 
 // Main function
-int main() {
+int main(void) {
     SystemCoreClockUpdate();
     GPIO_Config();
-    UART_Config();
-
-    UART_SendString("🔒 Digital Lock System Initialized. Enter Password...\n");
 
     while (1) {
-        uint8_t key = GPIO_ReadInputData(GPIOD) & 0x0F;  // Read keypad input
+        char key = scan_keypad();
+        if (key) {
+            // Store the entered key
+            entered_password[entered_index] = key;
+            entered_index++;
 
-        if (key != 0x0F) {  // If a key is pressed
-            entered[enteredIndex] = key;
-            enteredIndex++;
-
-            char debug_msg[30];
-            sprintf(debug_msg, "Key Pressed: %d\n", key);
-            UART_SendString(debug_msg);
-
-            if (enteredIndex == 4) {  // If 4 digits entered, check password
-                check_password();
-                enteredIndex = 0;  // Reset input buffer
-            }
+            // Check if the entered password matches the correct password
+            check_password();
         }
     }
+
+    return 0;
 }
+
+            
 
 ```
 
